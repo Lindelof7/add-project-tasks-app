@@ -1,6 +1,9 @@
 import { useRef } from "react";
+import Modal from "./Modal";
 
 export function CreateProject({projects, createNewProject, cancelProjectCreation}) {
+  const modal = useRef();
+  
   const title = useRef('');
   const description = useRef('');
   const dueDate = useRef('');
@@ -18,8 +21,11 @@ export function CreateProject({projects, createNewProject, cancelProjectCreation
     newProject.description = description.current.value;
     newProject.dueDate = dueDate.current.value;
 
-    console.log(newProject)
-    console.log(projects)
+    if(newProject.title.trim() ==='' || newProject.description.trim() === '' || newProject.dueDate.trim() === ''){
+      modal.current.open();
+      return
+    }
+
     createNewProject(newProject)
   } 
 
@@ -27,7 +33,12 @@ export function CreateProject({projects, createNewProject, cancelProjectCreation
     cancelProjectCreation()
   }
 
-  return (
+  return (<>
+  <Modal ref={modal}> 
+    <h2 className="text-2xl font-bold text-stone-700 my-4">Invalid Input</h2>
+    <p className="text-stone-500 mb-4">Oooops... You forgot to enter a value. </p>
+    <p className="text-stone-500 mb-4">Please provide a valid value for every input field.</p>
+  </Modal>
     <div className=" mt-4 text-right" >
       <button className="px-6 py-2 text-left rounded-md my-1 hover:text-stone-200 hover:bg-stone-800" 
       onClick={handleCancel} >
@@ -79,5 +90,6 @@ export function CreateProject({projects, createNewProject, cancelProjectCreation
         />
       </div>
     </div>
+    </>
   );
 }

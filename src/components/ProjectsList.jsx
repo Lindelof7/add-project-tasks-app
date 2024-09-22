@@ -22,7 +22,7 @@ export function ProjectsList({
       <ul className="mt-8">
         {projects.map((project) => {
           return (
-            <li key={project.id} className="text-stone-400 mb-4">
+            <li key={Math.random()} className="text-stone-400 mb-4">
               <button
                 onClick={() => {
                   handleProjectClick(project);

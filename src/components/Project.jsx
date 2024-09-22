@@ -1,17 +1,31 @@
 import { useRef, useState } from "react";
+import Modal from "./Modal";
 
 export function Project({ selectedProject, createTask, deleteTask, deleteProject}) {
   const taskInput = useRef("");
+  const modal = useRef();
 
   let newTask = { taskName: "", id: Math.random() };
 
   function addTask() {
     newTask.taskName = taskInput.current.value;
+
+    if(newTask.taskName.trim() === ''){
+      modal.current.open()
+      return
+    }
+
     createTask(newTask, selectedProject);
   }
 
+  
   return (
     <>
+     <Modal ref={modal}>
+     <h2 className="text-2xl font-bold text-stone-700 my-4">Invalid Input</h2>
+    <p className="text-stone-500 mb-4">Oooops... You forgot to enter a value. </p>
+    <p className="text-stone-500 mb-4">Please provide a valid value in order to add task.</p>
+      </Modal>
       <div className="w-[35rem] mt-16">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-stone-800 mb-2">
@@ -35,7 +49,6 @@ export function Project({ selectedProject, createTask, deleteTask, deleteProject
         <input
           className="w-64 px-2 py-1 rounded-sm bg-stone-200"
           ref={taskInput}
-          onChange={() => console.log(selectedProject)}
         />
         <button
           className="text-stone-600 hover:text-stone-950 ml-4"
