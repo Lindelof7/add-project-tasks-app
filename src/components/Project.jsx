@@ -55,26 +55,35 @@ export function Project({ selectedProject, createTask, deleteTask, deleteProject
           onClick={() => addTask()}
         >
           Add task
-        </button>
-        <ul className="p-4 mt-8 rounded-md bg-stone-100">
-          {selectedProject.tasks.map((taskKey) => {
-            return (
-              <li className="flex justify-between my-4" key={taskKey.id}>
-                <p className="text-xl font-bold text-stone-900">
-                  {taskKey.taskName}
-                </p>
-                <button
-                  className="text-stone-700 hover:text-red-500"
-                  onClick={() => {
-                    deleteTask(taskKey.id, selectedProject);
-                  }}
-                >
-                  Clear
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        </button> 
+       {selectedProject.tasks.length === 0 && (
+        <p className="text-stone-800 my-4">
+          This project does not have any tasks yet.
+        </p>
+       )}
+        {selectedProject.tasks.length > 0 && (
+           <ul className="p-4 mt-8 rounded-md bg-stone-100">
+           {selectedProject.tasks.map((taskKey) => {
+             return (
+               <li className="flex justify-between my-4" key={taskKey.id}>
+                 <p className="text-xl font-bold text-stone-900">
+                   {taskKey.taskName}
+                 </p>
+                 <button
+                   className="text-stone-700 hover:text-red-500"
+                   onClick={() => {
+                     deleteTask(taskKey.id, selectedProject);
+                   }}
+                 >
+                   Clear
+                 </button>
+               </li>
+             );
+           })}
+         </ul>
+        )
+
+        }
       </div>
     </>
   );
